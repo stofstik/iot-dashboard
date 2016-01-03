@@ -1,47 +1,41 @@
 extends layout
 
 block content
-  nav(class="navbar navbar-inverse navbar-fixed-top")
-    div(class="container-fluid")
-      div(class="navbar-header")
-        button(type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="nav-bar")
-          span(class="sr-only") Toggle navigation
-          span(class="icon-bar")
-          span(class="icon-bar")
-          span(class="icon-bar")
-        a(class="navbar-brand" href="#") Dashboard
-      div(id="navbar" class="navbar-collapse collapse")
-        ul(class="nav navbar-nav navbar-right")
-          li
-            a(href="#") bla
-          li
-            a(href="#") bla
-          li
-            a(href="#") bla
-          li
-            a(href="#") bla
-        form(class="navbar-form navbar-right")
-          input(type"text" class="form-control" placeholder="Search")
-
-  div(class="container-fluid")
-    div(class="row")
-      div(class="col-sm-3 col-md-2 sidebar")
-        ul(class="nav nav-sidebar")
-          li(class="active" onclick="someLog(this)")
-            a(href="#") Doors
-          li(class="active" onclick="someLog(this)")
-            a(href="#") Lights
-          li(class="active" onclick="someLog(this)")
-            a(href="#") Temperatures
-          li(class="active" onclick="someLog(this)")
-            a(href="#") Miscelanious
-          li(class="active" onclick="someLog(this)")
-            a(href="#") Add Category
-    div(class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" id="main-content")
-      h1(class="page-header" id="main-content-header") Doors:
+  div()
+    ul()
+      li(onclick="changeContent(this)")
+        a(id="li-name" href="#") Doors
+      li(onclick="changeContent(this)")
+        a(id="li-name" href="#") Lights
+      li(onclick="changeContent(this)")
+        a(id="li-name" href="#") Temperatures
+      li(onclick="changeContent(this)")
+        a(id="li-name" href="#") Miscellanious
+      li(onclick="changeContent(this)")
+        a(id="li-name" href="#") Add Category
+  div(id="main-content-wrapper")
+    h1(id="main-content-header") IOT Dashboard
+    div(id="main-content")
   script.
-    // toggle class="active"
-    function someLog(that){
-      console.log(that);
-      $(that).toggleClass("active");
+    // This script will use jQuery to switch content screens of our dashboard
+    console.log("script loaded :\)");
+
+    // declare some vars conaining our html objects
+    var mainContentWrapper = $('#main-content-wrapper');
+    var mainContentHeader = $(mainContentWrapper).find('#main-content-header');
+    var mainContent = $(mainContentWrapper).find('#main-content');
+
+    function changeContent(that) {
+      // remove all highlights
+      $(".active").removeClass("active");
+      // set highlight to selected object
+      $(that).addClass("active");
+      // get inner <a> to get title of main content
+      var contentTitle = $(that).find("#li-name").html();
+      // set title to main-content-header
+      mainContentHeader.text("" + contentTitle);
+      contentTitle = contentTitle.toLowerCase();
+      mainContent.empty();
+      mainContent.load("../static/" + contentTitle + ".html");
+
     }

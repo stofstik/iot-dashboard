@@ -1,0 +1,16 @@
+<div id="data">
+
+</div>
+<script>
+    // get door data by making an ajax call to the (local) server
+    // add <p> tag with data  in div with id "data"
+    console.log("doors.html loaded");
+    var doorData = $.ajax("http://localhost:3000/getDoorData", {success: loadData});
+
+    function loadData() {
+        console.log(doorData);
+        console.log(doorData.responseText);
+        $.find("#data").html(doorData.date);
+    }
+
+</script>
