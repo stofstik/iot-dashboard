@@ -1,14 +1,24 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-    var doorData = {
-        date: Date.now(),
-        doors: []
-    };
-    //for all doors doordata.push doors summin'
+var doorData = [];
+
+// get door data
+router.get('/getData', function(req, res, next) {
     res.send(doorData);
+});
+
+// post door data
+router.post('/postData/:date/:value', function(req, res, next) {
+    var data = {
+        date: req.params.date,
+        value: req.params.value
+    };
+    doorData.push(data);
+    if(doorData.length > 10) { // keep array small :)
+        doorData.shift();
+    }
+    res.send("thanks for the data! :)");
 });
 
 module.exports = router;

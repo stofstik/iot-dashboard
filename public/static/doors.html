@@ -1,16 +1,28 @@
 <div id="data">
-
 </div>
 <script>
     // get door data by making an ajax call to the (local) server
     // add <p> tag with data  in div with id "data"
     console.log("doors.html loaded");
-    var doorData = $.ajax("http://localhost:3000/getDoorData", {success: loadData});
+    var doorData = $.ajax("http://192.168.0.100:3000/doors/getData", {success: loadData});
 
     function loadData() {
-        console.log(doorData);
-        console.log(doorData.responseText);
-        $.find("#data").html(doorData.date);
+        var data = doorData.responseJSON;
+        var dateFormat = "YYYY-MM-DD HH:mm:ss";
+        var html = "";
+        for(var i = data.length - 1; i >= 0; i--){
+            html += "<p>";
+            var date = new Date(data[i].date * 1); // TODO herp derp
+            html += moment(date).format(dateFormat);
+            html += ":\t";
+            if(data[i].value === "false") {
+                html += "door closed";
+            } else {
+                html += "door opened";
+            }
+            html += "</p>\n";
+        }
+        $("#data").html(html);
     }
 
 </script>
